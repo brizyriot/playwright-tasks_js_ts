@@ -16,16 +16,19 @@ test.describe('Поиск элементов по роли "button"', () => {
   // Задание 2: Найди неактивную кнопку используя getByRole с указанием disabled состояния
   // Проверь что кнопка видима и действительно disabled
   test('Найти неактивную кнопку по роли и состоянию', async ({ page }) => {
-    const disabledButton = // локатор
-      await expect(disabledButton).toBeVisible();
+    const disabledButton = page.getByRole('button', {
+      name: 'Неактивная кнопка',
+      disabled: true,
+    });
+    await expect(disabledButton).toBeVisible();
     await expect(disabledButton).toBeDisabled();
   });
 
   // Задание 3: Найди элемент div с ролью button (не настоящую кнопку)
   // Проверь что элемент видим и содержит текст "Div как кнопка"
   test('Найти div с ролью кнопки', async ({ page }) => {
-    const divButton = // локатор
-      await expect(divButton).toBeVisible();
+    const divButton = page.getByRole('button', { name: 'Div как кнопка' });
+    await expect(divButton).toBeVisible();
     await expect(divButton).toHaveText('Div как кнопка');
   });
 });
@@ -38,8 +41,8 @@ test.describe('Поиск элементов форм по ролям', () => {
   // Задание 1: Найди поле "Имя пользователя" по роли textbox и связанному label
   // Заполни поле текстом "тестовый_пользователь" и проверь значение
   test('Найти поля формы по их ролям', async ({ page }) => {
-    const usernameInput = // локатор
-      await expect(usernameInput).toBeVisible();
+    const usernameInput = page.getByRole('textbox', { name: 'Имя пользователя' });
+    await expect(usernameInput).toBeVisible();
     await usernameInput.fill('тестовый_пользователь');
     await expect(usernameInput).toHaveValue('тестовый_пользователь');
   });
@@ -47,8 +50,8 @@ test.describe('Поиск элементов форм по ролям', () => {
   // Задание 2: Найди чекбокс "Подписаться на рассылку" по роли checkbox
   // Проверь что он не выбран, затем выбери его и проверь снова
   test('Найти чекбоксы по роли checkbox', async ({ page }) => {
-    const newsletterCheckbox = // локатор
-      await expect(newsletterCheckbox).toBeVisible();
+    const newsletterCheckbox = page.getByRole('checkbox', { name: 'Подписаться на рассылку' });
+    await expect(newsletterCheckbox).toBeVisible();
     await expect(newsletterCheckbox).not.toBeChecked();
     await newsletterCheckbox.check();
     await expect(newsletterCheckbox).toBeChecked();
@@ -60,10 +63,10 @@ test.describe('Поиск элементов форм по ролям', () => {
   // 3. Найди и выбери страну из выпадающего списка
   // 4. Найди и нажми кнопку отправки
   test('Заполнить и отправить форму', async ({ page }) => {
-    await page.ЛОКАТОР.fill('тест');
-    await page.ЛОКАТОР.fill('пароль123');
-    await page.ЛОКАТОР.selectOption('ru');
-    await page.ЛОКАТОР.click();
+    await page.getByRole('textbox', { name: 'Имя пользователя' }).fill('тест');
+    await page.getByRole('textbox', { name: 'Пароль' }).fill('пароль123');
+    await page.getByLabel('Страна').selectOption('ru');
+    await page.getByRole('button', { name: 'Отправить' }).click();
   });
 });
 
