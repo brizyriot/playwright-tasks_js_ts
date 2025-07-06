@@ -8,8 +8,8 @@ test.describe('Поиск элементов по роли "button"', () => {
   // Задание 1: Найди кнопку "Основное действие" используя getByRole с указанием роли и текста
   // После нахождения кнопки проверь что она видима и имеет класс primary-btn
   test('Найти основную кнопку по роли и тексту', async ({ page }) => {
-    const primaryButton = // локатор
-      await expect(primaryButton).toBeVisible();
+    const primaryButton = page.getByRole('button', { name: 'Основное действие' });
+    await expect(primaryButton).toBeVisible();
     await expect(primaryButton).toHaveClass(/primary-btn/);
   });
 
