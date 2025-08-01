@@ -65,7 +65,7 @@ test.describe('Поиск элементов форм по ролям', () => {
   test('Заполнить и отправить форму', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Имя пользователя' }).fill('тест');
     await page.getByRole('textbox', { name: 'Пароль' }).fill('пароль123');
-    await page.getByLabel('Страна').selectOption('ru');
+    await page.getByRole('combobox', { name: 'Страна' }).selectOption('ru');
     await page.getByRole('button', { name: 'Отправить' }).click();
   });
 });
@@ -82,12 +82,11 @@ test.describe('Поиск вкладок и уведомлений по роля
   // 4. Проверь что она стала выбранной
   // 5. Найди содержимое вкладки по роли tabpanel и проверь его видимость
   test('Переключение между вкладками', async ({ page }) => {
-    const settingsTab = // локатор
-      await expect(settingsTab).toHaveAttribute('aria-selected', 'false');
+    const settingsTab = page.getByRole('tab', { name: 'Настройки' });
+    await expect(settingsTab).toHaveAttribute('aria-selected', 'false');
     await settingsTab.click();
     await expect(settingsTab).toHaveAttribute('aria-selected', 'true');
-    const settingsPanel = // локатор
-      await settingsPanel.click();
+    const settingsPanel = page.getByRole('heading', { name: 'Настройки аккаунта' });
     await expect(settingsPanel).toBeVisible();
   });
 
@@ -96,8 +95,8 @@ test.describe('Поиск вкладок и уведомлений по роля
   // 2. Отфильтруй уведомление с текстом "Успех!"
   // 3. Проверь что оно видимо и имеет класс alert-success
   test('Проверить уведомления на странице', async ({ page }) => {
-    const successAlert = // локатор
-      await expect(successAlert).toBeVisible();
+    const successAlert = page.getByRole('alert').filter({ hasText: 'Успех!' });
+    await expect(successAlert).toBeVisible();
     await expect(successAlert).toHaveClass(/alert-success/);
   });
 });
